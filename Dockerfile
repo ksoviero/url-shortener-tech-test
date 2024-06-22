@@ -1,10 +1,11 @@
-FROM python:3.11-slim-bullseye
+FROM python:3-slim
 
 WORKDIR /app
+RUN mkdir /app/db
 
 COPY requirements.txt /app
 RUN pip install --no-cache -r /app/requirements.txt
 
-COPY server.py /app
+COPY *.py /app
 
 ENTRYPOINT ["uvicorn", "--host", "0.0.0.0", "server:app"]
