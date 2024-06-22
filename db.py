@@ -71,13 +71,13 @@ def short_url_to_full_url(short_url: str):
   """
 
   try:
-    rowid = unpack('!L', urlsafe_b64decode(short_url))
+    rowid = unpack('!L', urlsafe_b64decode(short_url))[0]
 
   except Exception as e:
     print(e.__class__, e)
     raise HTTPException(status_code=400, detail='Invalid URL short code')
 
-  q = _query('select url from short_urls where rowid = ?', rowid)
+  q = _query('select url from short_urls where rowid = ?', [rowid])
 
   if q is None:
     raise HTTPException(status_code=404, detail='Unknown URL short code')
